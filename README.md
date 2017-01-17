@@ -2,6 +2,7 @@
 
 Projekt-PHP7-1.1 ist ein deutsches Projekt, von HarlekinPower http://harlekinpower.de, welches PHP Fusion 7.02.07 auf PHP 7.1 mit PDO lauffähig macht.
 Projekt PHP7 1.1 ist keine offizielle PHP Fusion Version!
+
 Die Nutzung erfolgt also eigene Gefahr!
 
 ----------------------------------------------------------------------------------------------------------------------------------
