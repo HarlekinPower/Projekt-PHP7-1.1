@@ -104,6 +104,8 @@ if (isset($_POST['save'])) {
 } else if (isset($_POST['delete']) && (isset($_POST['page_id']) && isnum($_POST['page_id']))) {
 	$result = dbquery("DELETE FROM ".DB_CUSTOM_PAGES." WHERE page_id='".$_POST['page_id']."'");
 	$result = dbquery("DELETE FROM ".DB_SITE_LINKS." WHERE link_url='viewpage.php?page_id=".$_POST['page_id']."'");
+	$result = dbquery("DELETE FROM ".DB_COMMENTS." WHERE comment_type='C' AND comment_item_id='".$_POST['site_id']."'");
+	$result = dbquery("DELETE FROM ".DB_RATINGS." WHERE rating_type='C' AND rating_item_id='".$_POST['site_id']."'");
 	redirect(FUSION_SELF.$aidlink."&status=del");
 } else {
 	if (isset($_POST['preview'])) {
