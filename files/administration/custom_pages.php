@@ -75,11 +75,8 @@ if (isset($_POST['save'])) {
 					'".$page_title."', '".$page_access."', '".$page_content."', '".$comments."', '".$ratings."'
 				)"
 			);
-			if ($pdo_enabled == "1") {
-				$page_id = $pdo->lastInsertId();
-			} else {
-				$page_id = mysql_insert_id();
-			}
+			$page_id = $pdo->lastInsertId();
+
 			if (isset($_POST['add_link'])) {
 				$data = dbarray(dbquery("SELECT link_order FROM ".DB_SITE_LINKS." ORDER BY link_order DESC LIMIT 1"));
 				$link_order = $data['link_order'] + 1;
