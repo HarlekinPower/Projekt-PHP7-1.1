@@ -106,9 +106,6 @@ echo handle_output($output);
 if (ob_get_length() !== FALSE){
 	ob_end_flush();
 }
-if ($pdo_enabled == "1") {
-	$pdo = NULL;
-} else {
-	mysql_close($db_connect);
-}
+
+$pdo = NULL;
 ?>
