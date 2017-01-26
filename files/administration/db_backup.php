@@ -56,20 +56,13 @@ if (isset($_POST['btn_create_backup'])) {
 			if ($result && dbrows($result)) {
 				echo $crlf."#".$crlf."# Table Data for `".$table."`".$crlf."#".$crlf;
 				$column_list = "";
-				if ($pdo_enabled == "1") {
-					$column_list = "";
-					$num_fields = $result->columnCount();
-					for ($i = 0; $i < $num_fields; $i++) {
-						$column_meta = $result->getColumnMeta($i);
-						$column_list .= (($column_list != "") ? ", " : "")."`".$column_meta['name']."`";
-						unset($column_meta);
-					}
-				} else {
-					$num_fields = mysql_num_fields($result);
-					for ($i = 0; $i < $num_fields; $i++) {
-						$column_list .= (($column_list != "") ? ", " : "")."`".mysql_field_name($result, $i)."`";
-					}
+				$num_fields = $result->columnCount();
+				for ($i = 0; $i < $num_fields; $i++) {
+					$column_meta = $result->getColumnMeta($i);
+					$column_list .= (($column_list != "") ? ", " : "")."`".$column_meta['name']."`";
+					unset($column_meta);
 				}
+				
 			}
 			while ($row = dbarraynum($result)) {
 				$dump = "INSERT INTO `$table` ($column_list) VALUES (";
@@ -78,12 +71,7 @@ if (isset($_POST['btn_create_backup'])) {
 					if (!isset($row[$i])) {
 						$dump .= "NULL";
 					} elseif ($row[$i] == "0" || $row[$i] != ""){
-						//$type = mysql_field_type($result, $i);
-						if ($pdo_enabled == "1") {
-							$type = GetSqlFieldType($table, $i);
-						} else {
-							$type = mysql_field_type($result, $i);
-						}
+						$type = GetSqlFieldType($table, $i);
 						if ($type == "tinyint" || $type == "smallint" || $type == "mediumint" || $type == "int" || $type == "bigint"|| $type == "timestamp") {
 							$dump .= $row[$i];
 						} else {
@@ -160,26 +148,16 @@ if (isset($_POST['btn_do_restore'])) {
 					$tbl = $tmp[1];
 					if (in_array($tbl, $_POST['list_tbl'])) {
 						$result = preg_replace("/^DROP TABLE IF EXISTS `$inf_tblpre(.*?)`/im","DROP TABLE IF EXISTS `$restore_tblpre\\1`",$result);
-						//mysql_unbuffered_query($result);
-						if ($pdo_enabled == "1") {
-							$rct1 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
-							$rct1->execute();
-						} else {
-							mysql_unbuffered_query($result);
-						}
+						$rct1 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
+						$rct1->execute();
 					}
 				}
 				if (preg_match("/^CREATE TABLE `(.*?)`/im",$result,$tmp)) {
 					$tbl = $tmp[1];
 					if (in_array($tbl, $_POST['list_tbl'])) {
 						$result = preg_replace("/^CREATE TABLE `$inf_tblpre(.*?)`/im","CREATE TABLE `$restore_tblpre\\1`",$result);
-						//mysql_unbuffered_query($result);
-						if ($pdo_enabled == "1") {
-							$rct2 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
-							$rct2->execute();
-						} else {
-							mysql_unbuffered_query($result);
-						}
+						$rct2 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
+						$rct2->execute();
 					}
 				}
 			}
@@ -190,12 +168,8 @@ if (isset($_POST['btn_do_restore'])) {
 					$ins = $tmp[1];
 					if (in_array($ins, $_POST['list_ins'])) {
 						$result = preg_replace("/INSERT INTO `$inf_tblpre(.*?)`/i","INSERT INTO `$restore_tblpre\\1`",$result);
-						if ($pdo_enabled == "1") {
-							$rct3 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
-							$rct3->execute();
-						} else {
-							mysql_unbuffered_query($result);
-						}
+						$rct3 = $pdo->prepare($result, array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE));
+						$rct3->execute();
 					}
 				}
 			}
