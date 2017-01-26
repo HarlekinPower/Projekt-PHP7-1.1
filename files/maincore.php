@@ -88,11 +88,7 @@ if(isset($_FILES) && count($_FILES)) {
 }
 
 // Select database handler
-if ($pdo_enabled == "1") {
-	require_once BASEDIR.'includes/db_handlers/pdo_functions_include.php';
-} else {
-	require_once BASEDIR.'includes/db_handlers/mysql_functions_include.php';
-}
+require_once BASEDIR.'includes/db_handlers/pdo_functions_include.php';
 
 // Establish mySQL database connection
 $link = dbconnect($db_host, $db_user, $db_pass, $db_name);
