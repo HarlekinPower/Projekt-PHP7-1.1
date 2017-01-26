@@ -226,24 +226,18 @@ if (isset($_POST['step']) && $_POST['step'] == "4") {
 	}
 
 	if ($db_host != "" && $db_user != "" && $db_name != "" && $db_prefix != "") {
-		if ($pdo_enabled == "1") {
-			require_once "includes/db_handlers/pdo_functions_include.php";
-			$pdo = NULL;
-			try {
-				$pdo = new PDO("mysql:host=".$db_host.";dbname=".$db_name.";encoding=utf8", $db_user, $db_pass);
-				$db_connect = $pdo;
-				$db_select = "True";
-			} catch (PDOException $e) {
-				$db_connect = "False";
-				$db_select = "False";
-			}
-		} else {
-			require_once "includes/db_handlers/mysql_functions_include.php";
-			$db_connect = @mysql_connect($db_host, $db_user, $db_pass);
-			$db_select = @mysql_select_db($db_name);
+		require_once "includes/db_handlers/pdo_functions_include.php";
+		$pdo = NULL;
+		try {
+			$pdo = new PDO("mysql:host=".$db_host.";dbname=".$db_name.";encoding=utf8", $db_user, $db_pass);
+			$db_connect = $pdo;
+			$db_select = "True";
+		} catch (PDOException $e) {
+			$db_connect = "False";
+			$db_select = "False";
 		}
+		
 		if ($db_connect) {
-			//$db_select = @mysql_select_db($db_name);
 			if ($db_select) {
 				if (dbrows(dbquery("SHOW TABLES LIKE '".str_replace("_", "\_", $db_prefix)."%'")) == "0") {
 					$table_name = uniqid($db_prefix, false); $can_write = true;
@@ -1150,21 +1144,15 @@ if (isset($_POST['step']) && $_POST['step'] == "5") {
 
 if (isset($_POST['step']) && $_POST['step'] == "6") {
 	require_once "config.php";
-	if ($pdo_enabled == "1") {
-		require_once "includes/db_handlers/pdo_functions_include.php";
-		$pdo = NULL;
-		try {
-			$pdo = new PDO("mysql:host=".$db_host.";dbname=".$db_name.";encoding=utf8", $db_user, $db_pass);
-			$db_connect = $pdo;
-			$db_select = "True";
-		} catch (PDOException $e) {
-			$db_connect = "False";
-			$db_select = "False";
-		}
-	} else {
-		require_once "includes/db_handlers/mysql_functions_include.php";
-		$db_connect = @mysql_connect($db_host, $db_user, $db_pass);
-		$db_select = @mysql_select_db($db_name);
+	require_once "includes/db_handlers/pdo_functions_include.php";
+	$pdo = NULL;
+	try {
+		$pdo = new PDO("mysql:host=".$db_host.";dbname=".$db_name.";encoding=utf8", $db_user, $db_pass);
+		$db_connect = $pdo;
+		$db_select = "True";
+	} catch (PDOException $e) {
+		$db_connect = "False";
+		$db_select = "False";
 	}
 
 	$error = ""; $error_pass = "0"; $error_name = "0"; $error_mail = "0"; $settings['password_algorithm'] = "sha256";
