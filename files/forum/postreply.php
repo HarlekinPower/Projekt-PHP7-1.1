@@ -77,12 +77,7 @@ if (isset($_POST['postreply'])) {
 					$postCount = "";
 				} else {
 					$result = dbquery("INSERT INTO ".DB_POSTS." (forum_id, thread_id, post_message, post_showsig, post_smileys, post_author, post_datestamp, post_ip, post_ip_type, post_edituser, post_edittime, post_editreason) VALUES ('".$_GET['forum_id']."', '".$_GET['thread_id']."', '$message', '$sig', '$smileys', '".$userdata['user_id']."', '".time()."', '".USER_IP."', '".USER_IP_TYPE."', '0', '0', '')");
-					//$post_id = mysql_insert_id();
-					if ($pdo_enabled == "1") {
-						$post_id = $pdo->lastInsertId();
-					} else {
-						$post_id = mysql_insert_id();
-					}
+					$post_id = $pdo->lastInsertId();
 					$result = dbquery("UPDATE ".DB_USERS." SET user_posts=user_posts+1 WHERE user_id='".$userdata['user_id']."'");
 					$threadCount = "thread_postcount=thread_postcount+1,";
 					$postCount = "forum_postcount=forum_postcount+1,";
