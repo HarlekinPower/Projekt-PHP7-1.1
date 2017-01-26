@@ -48,11 +48,7 @@ function setError($error_level, $error_message, $error_file, $error_line, $error
 				'0', '".time()."'
 			)"
 		);
-		if ($pdo_enabled == "1") {
-			$errorId = $pdo->lastInsertId();
-		} else {
-			$errorId = mysql_insert_id();
-		}
+		$errorId = $pdo->lastInsertId();
 	} else {
 		$data = dbarray($result);
 		$errorId = $data['error_id'];
