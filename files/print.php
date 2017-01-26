@@ -174,9 +174,7 @@ echo "</body>\n</html>\n";
 if (ob_get_length() !== FALSE){
 	ob_end_flush();
 }
-if ($pdo_enabled == "1") {
+
 $pdo = NULL;
-} else {
-mysql_close($db_connect);
-}
+
 ?>
