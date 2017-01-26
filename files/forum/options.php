@@ -93,13 +93,8 @@ if (isset($_GET['step']) && $_GET['step'] == "renew") {
 		$tdata = dbarray(dbquery("SELECT thread_id,thread_lastpost,thread_lastuser FROM ".DB_THREADS." WHERE thread_id='".$_GET['thread_id']."'"));
 
 		$threads_count = dbcount("(forum_id)", DB_THREADS, "forum_id='".$_GET['forum_id']."'") - 1;
-		if ($pdo_enabled == "1") {
 		$result = dbquery_exec("DELETE FROM ".DB_POSTS." WHERE thread_id='".$_GET['thread_id']."'");
 		$del_posts = $result;
-		} else {
-		$result = dbquery("DELETE FROM ".DB_POSTS." WHERE thread_id='".$_GET['thread_id']."'");
-		$del_posts = mysql_affected_rows();
-		}
 		$result = dbquery("DELETE FROM ".DB_THREADS." WHERE thread_id='".$_GET['thread_id']."'");
 		$result = dbquery("DELETE FROM ".DB_THREAD_NOTIFY." WHERE thread_id='".$_GET['thread_id']."'");
 		$result = dbquery("SELECT attach_name FROM ".DB_FORUM_ATTACHMENTS." WHERE thread_id='".$_GET['thread_id']."'");
