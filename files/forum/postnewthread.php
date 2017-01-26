@@ -110,19 +110,9 @@ if (isset($_POST['postnewthread'])) {
 			require_once INCLUDES."flood_include.php";
 			if (!flood_control("post_datestamp", DB_POSTS, "post_author='".$userdata['user_id']."'")) {
 				$result = dbquery("INSERT INTO ".DB_THREADS." (forum_id, thread_subject, thread_author, thread_views, thread_lastpost, thread_lastpostid, thread_lastuser, thread_postcount, thread_poll, thread_sticky, thread_locked) VALUES('".$_GET['forum_id']."', '$subject', '".$userdata['user_id']."', '0', '".time()."', '0', '".$userdata['user_id']."', '1', '".$thread_poll."', '".$sticky_thread."', '".$lock_thread."')");
-				//$thread_id = mysql_insert_id();
-				if ($pdo_enabled == "1") {
-					$thread_id = $pdo->lastInsertId();
-				} else {
-					$thread_id = mysql_insert_id();
-				}
+				$thread_id = $pdo->lastInsertId();
 				$result = dbquery("INSERT INTO ".DB_POSTS." (forum_id, thread_id, post_message, post_showsig, post_smileys, post_author, post_datestamp, post_ip, post_ip_type, post_edituser, post_edittime, post_editreason) VALUES ('".$_GET['forum_id']."', '".$thread_id."', '".$message."', '".$sig."', '".$smileys."', '".$userdata['user_id']."', '".time()."', '".USER_IP."', '".USER_IP_TYPE."', '0', '0', '')");
-				//$post_id = mysql_insert_id();
-				if ($pdo_enabled == "1") {
-					$post_id = $pdo->lastInsertId();
-				} else {
-					$post_id = mysql_insert_id();
-				}
+				$post_id = $pdo->lastInsertId();
 				$result = dbquery("UPDATE ".DB_FORUMS." SET forum_lastpost='".time()."', forum_postcount=forum_postcount+1, forum_threadcount=forum_threadcount+1, forum_lastuser='".$userdata['user_id']."' WHERE forum_id='".$_GET['forum_id']."'");
 				$result = dbquery("UPDATE ".DB_THREADS." SET thread_lastpostid='".$post_id."' WHERE thread_id='".$thread_id."'");
 				$result = dbquery("UPDATE ".DB_USERS." SET user_posts=user_posts+1 WHERE user_id='".$userdata['user_id']."'");
@@ -132,12 +122,7 @@ if (isset($_POST['postnewthread'])) {
 					$poll_title = trim(stripinput(censorwords($_POST['poll_title'])));
 					if ($poll_title && (isset($poll_opts) && is_array($poll_opts))) {
 						$result = dbquery("INSERT INTO ".DB_FORUM_POLLS." (thread_id, forum_poll_title, forum_poll_start, forum_poll_length, forum_poll_votes) VALUES('".$thread_id."', '".$poll_title."', '".time()."', '0', '0')");
-						//$forum_poll_id = mysql_insert_id();
-						if ($pdo_enabled == "1") {
-							$forum_poll_id = $pdo->lastInsertId();
-						} else {
-							$forum_poll_id = mysql_insert_id();
-						}
+						$forum_poll_id = $pdo->lastInsertId();
 						$i = 1;
 						foreach ($poll_opts as $poll_option) {
 							$result = dbquery("INSERT INTO ".DB_FORUM_POLL_OPTIONS." (thread_id, forum_poll_option_id, forum_poll_option_text, forum_poll_option_votes) VALUES('".$thread_id."', '".$i."', '".$poll_option."', '0')");
