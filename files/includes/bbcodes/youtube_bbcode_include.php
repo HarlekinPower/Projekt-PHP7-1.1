@@ -17,5 +17,5 @@
 +--------------------------------------------------------*/
 if (!defined("IN_FUSION")) { die("Access Denied"); }
 
-$text = preg_replace('#\[youtube\](http:|https:)?(\/\/www.youtube\.com\/watch\?v=|\/\/youtu\.be\/)?(.*?)\[/youtube\]#si', '<strong>'.$locale['bb_youtube'].'</strong><br /><iframe width="425" height="350" src="http://www.youtube.com/v/\3" frameborder="0"></iframe>', $text);
+$text = preg_replace('#\[youtube\](http:|https:)?(\/\/www.youtube\.com\/watch\?v=|\/\/youtu\.be\/)?(.*?)\[/youtube\]#si', '<strong>'.$locale['bb_youtube'].'</strong><br /><iframe width="425" height="350" src="https://www.youtube.com/embed/\3" frameborder="0"></iframe>', $text);
 ?>
