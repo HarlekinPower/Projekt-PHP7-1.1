@@ -110,5 +110,46 @@ function dbconnect($db_host, $db_user, $db_pass, $db_name) {
 		die("<strong>Unable to select MySQL database</strong><br />".$error->getMessage());
 	}
 }
+function mysql_close($pdo)
+{
+    global $pdo;
+    $pdo = null;
+}
 
+function mysql_insert_id()
+{
+    global $pdo;
+    /** @var PDO $pdo */
+    return $pdo->lastInsertId();
+}
+
+function mysql_get_server_info()
+{
+    global $pdo;
+    /** @var PDO $pdo */
+    return $pdo->query('select version()')->fetchColumn();
+}
+
+function db_exists($table) {
+    global $pdo;
+    /** @var PDO $pdo */
+    $query = $pdo->prepare('SHOW TABLES LIKE :table');
+    $query->bindParam(':table', $table);
+    return $query->execute();
+}
+
+function mysql_query($rwaQuery)
+{
+    return dbquery($rwaQuery);
+}
+
+function mysql_real_escape_string($unescaped_string, $connection = null)
+{
+    if ($connection !== null) {
+        $pdo = $connection;
+    } else {
+        global $pdo;
+    }
+    return mysqli_real_escape_string($pdo, $unescaped_string);
+}
 ?>
