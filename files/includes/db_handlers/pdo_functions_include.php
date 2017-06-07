@@ -138,9 +138,9 @@ function db_exists($table) {
     return $query->execute();
 }
 
-function mysql_query($rwaQuery)
+function mysql_query($rawQuery)
 {
-    return dbquery($rwaQuery);
+    return dbquery($rawQuery);
 }
 
 function mysql_real_escape_string($unescaped_string, $connection = null)
