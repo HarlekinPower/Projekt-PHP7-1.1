@@ -17,7 +17,6 @@
 +--------------------------------------------------------*/
 if (!defined("IN_FUSION")) { die("Access Denied"); }
 
-if (phpversion()>5.4) {
 	$text = preg_replace_callback(
 		"#\[url\]([\r\n]*)(http://|ftp://|https://|ftps://)([^\s\'\"]*?)([\r\n]*)\[/url\]#si",
 		function($m) {
@@ -27,10 +26,6 @@ if (phpversion()>5.4) {
                 ".trimlink($this_url, 20). (strlen($this_url)>30 ? substr($this_url, strlen($this_url)-10, strlen($this_url)):'')."
                 </a>";
 		}, $text);
-} else {
-	//Url BBCode with auto triming long links
-	$text = preg_replace('#\[url\]([\r\n]*)(http://|ftp://|https://|ftps://)([^\s\'\"]*?)([\r\n]*)\[/url\]#sie', "'<a href=\'\\2\\3\' target=\'_blank\' title=\'\\2\\3\'>'.trimlink('\\2\\3', 20).(strlen('\\2\\3')>30?substr('\\2\\3', strlen('\\2\\3')-10, strlen('\\2\\3')):'').'</a>'", $text);
-}
 
 //Url BBCode with auto triming long links
 $text = preg_replace('#\[url=([\r\n]*)(http://|ftp://|https://|ftps://)([^\s\'\"]*?)\](.*?)([\r\n]*)\[/url\]#si', '<a href=\'\2\3\' target=\'_blank\' title=\'\2\3\'>\4</a>', $text);

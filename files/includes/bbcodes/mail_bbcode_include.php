@@ -17,7 +17,6 @@
 +--------------------------------------------------------*/
 if (!defined("IN_FUSION")) { die("Access Denied"); }
 
-if (phpversion()>5.4) {
 	$text = preg_replace_callback(
 		"#\[mail\]([\r\n]*)([^\s\'\";:\+]*?)([\r\n]*)\[/mail\]#si",
 		function($m) {
@@ -25,11 +24,7 @@ if (phpversion()>5.4) {
 			$mail = $m['2'];
 			return hide_email($mail);
 		}, $text);
-} else {
-	$text = preg_replace('#\[mail\]([\r\n]*)([^\s\'\";:\+]*?)([\r\n]*)\[/mail\]#sie', "hide_email('\\2').''", $text);
-}
 
-if (phpversion()>5.4) {
 	$text = preg_replace_callback(
 		"#\[mail=([\r\n]*)([^\s\'\";:\+]*?)\](.*?)([\r\n]*)\[/mail\]#si",
 		function($m) {
@@ -37,7 +32,5 @@ if (phpversion()>5.4) {
 			$mail = $m['2'];
 			return hide_email($mail);
 		}, $text);
-} else {
-	$text = preg_replace('#\[mail=([\r\n]*)([^\s\'\";:\+]*?)\](.*?)([\r\n]*)\[/mail\]#sie', "hide_email('\\2').''", $text);
-}
+
 ?>
