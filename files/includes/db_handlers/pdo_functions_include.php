@@ -127,11 +127,12 @@ function dbconnect($db_host, $db_user, $db_pass, $db_name) {
 	}
 }
 
-function mysql_close($pdo) {
+function mysql_close() {
     global $pdo;
 	/** @var PDO $pdo */
-    $pdo = null;
+    return $pdo = null;
 }
+
 function mysql_insert_id() {
     global $pdo;
     /** @var PDO $pdo */
@@ -174,12 +175,6 @@ function mysql_field_name($result, $field_offset) {
 
 function mysql_free_result($result) {
     return $result->closeCursor();
-}
-
-function mysql_escape_string($unescaped_string, $connection = null) {
-    global $pdo;
-    /** @var PDO $pdo */
-    return $pdo->quote($unescaped_string);
 }
 
 function mysql_num_rows($result) {
