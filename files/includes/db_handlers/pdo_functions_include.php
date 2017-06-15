@@ -173,6 +173,11 @@ function mysql_field_name($result, $field_offset) {
     return $columns;
 }
 
+function mysql_result(PDOStatement $result, $column){
+    $query = $result->fetch();
+    return $query[$column];
+}
+
 function mysql_free_result($result) {
     return $result->closeCursor();
 }
