@@ -186,12 +186,12 @@ if (isset($_POST['step']) && $_POST['step'] == "3") {
 	echo "<td class='tbl1' style='text-align:right'><input type='text' value='".$db_name."' name='db_name' class='textbox".$field_class[3]."' style='width:200px' /></td>\n</tr>\n";
 	//neu für pdo start
 	echo "<tr>\n<td class='tbl1' style='text-align:left'>".$locale['037']."</td>\n";
-	echo "<td class='tbl1'>\n";
+	echo "<td class='tbl1' style='text-align:right'>\n";
 	if (!defined('PDO::ATTR_DRIVER_NAME')) {
 		echo $locale['038'];
 	} else {
-		echo "<select name='pdo_enabled' class='form-control input-sm textbox' style='width:200px'>\n";
-		echo "<option value='0'>".$locale['039']."</option>\n";
+		echo "<select name='pdo_enabled' class='textbox' style='width:200px'>\n";
+		//echo "<option value='0'>".$locale['039']."</option>\n";
 		echo "<option value='1' selected='selected'>".$locale['039b']."</option>\n";
 		echo "</select>\n";
 	}
