@@ -5,7 +5,6 @@ Erklärung:
 ACHTUNG: Projekt PHP7 1.1 ist keine offizielle PHP Fusion Version!
 
 Bei Projekt PHP7 1.1 handelt es sich um eine, von Rolly8-HL und mir (Harlekin), angepasste englische PHP Fusion Version 7.02.07 mit deutscher Locale, welche mit PHP 7.1 mittels PDO arbeitet.
-(PDO muss im Setup bei der Installation ausgewählt bleiben!)
 
 Projekt PHP7 1.1 wurde von uns gestartet, weil es zu diesem Zeitpunkt noch keine Lösung für PHP 7.1 gab. Für PHP 7.0 hatte ich ja bereits Projekt PHP7 1.0 fertig gemacht. Projekt PHP7 1.1 sollte auch mit PHP 7.0 laufen.
 
@@ -51,10 +50,4 @@ Beispiel: http://deine_webseite.de/setup.php
 
 6. Nach erfolgreicher Installation die setup.php löschen und der config.php CHMOD 644 geben.
 
-
-----------------------------------------------------
-Upgrade von Projekt PHP7 1.0 auf Projekt PHP7 1.1:
-----------------------------------------------------
-
-Die Dateien aus dem Verzeichnis upgrade Projekt PHP7 1.0 hochladen und die vorhanden Dateien überschreiben!
 
