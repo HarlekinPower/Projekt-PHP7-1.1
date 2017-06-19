@@ -127,69 +127,92 @@ function dbconnect($db_host, $db_user, $db_pass, $db_name) {
 	}
 }
 
-function mysql_close() {
-    global $pdo;
-	/** @var PDO $pdo */
-    return $pdo = null;
+if(!function_exists("mysql_close")) {
+	function mysql_close() {
+		global $pdo;
+		/** @var PDO $pdo */
+		return $pdo = null;
+	}
 }
 
-function mysql_insert_id() {
-    global $pdo;
+if(!function_exists("mysql_insert_id")) {
+	function mysql_insert_id() {
+		global $pdo;
     /** @var PDO $pdo */
-    return $pdo->lastInsertId();
+		return $pdo->lastInsertId();
+	}
 }
 
-function mysql_get_server_info() {
-    global $pdo;
+if(!function_exists("mysql_get_server_info")) {
+	function mysql_get_server_info() {
+		global $pdo;
+		/** @var PDO $pdo */
+		return $pdo->query('select version()')->fetchColumn();
+	}
+}
+
+if(!function_exists("mysql_query")) {
+	function mysql_query($rawQuery) {
+		return dbquery($rawQuery);
+	}
+}
+
+if(!function_exists("mysql_real_escape_string")) {
+	function mysql_real_escape_string($unescaped_string, $connection = null) {
+		global $pdo;
     /** @var PDO $pdo */
-    return $pdo->query('select version()')->fetchColumn();
+		return $pdo->quote($unescaped_string);
+	}
+}
+if(!function_exists("mysql_connect")) {
+	function mysql_connect($db_host, $db_user, $db_pass) {
+		global $db_name;
+		dbconnect($db_host, $db_user, $db_pass, $db_name);
+	}
 }
 
-function mysql_query($rawQuery) {
-    return dbquery($rawQuery);
+if(!function_exists("mysql_select_db")) {
+	function mysql_select_db($name) {
+		return TRUE;
+	}
 }
 
-function mysql_real_escape_string($unescaped_string, $connection = null) {
-    global $pdo;
-    /** @var PDO $pdo */
-    return $pdo->quote($unescaped_string);
+if(!function_exists("mysql_field_name")) {
+	function mysql_field_name($result, $field_offset) {
+		$columns = [];
+		for ($i = 0; $i < $result->columnCount(); $i++) {
+			$col = $result->getColumnMeta($i);
+			$columns[] = $col['name'];
+		}
+		return $columns;
+	}
 }
 
-function mysql_connect($db_host, $db_user, $db_pass) {
-    global $db_name;
-    dbconnect($db_host, $db_user, $db_pass, $db_name);
+if(!function_exists("mysql_result")) {
+	function mysql_result($result, $column){
+		$query = $result->fetch();
+		return $query[$column];
+	}
 }
 
-function mysql_select_db($name) {
-    return TRUE;
+if(!function_exists("mysql_free_result")) {
+	function mysql_free_result($result) {
+		return $result->closeCursor();
+	}
 }
 
-function mysql_field_name($result, $field_offset) {
-    $columns = [];
-    for ($i = 0; $i < $result->columnCount(); $i++) {
-        $col = $result->getColumnMeta($i);
-        $columns[] = $col['name'];
-    }
-    return $columns;
+if(!function_exists("mysql_num_rows")) {
+	function mysql_num_rows($result) {
+		return dbrows($result);
+	}
 }
 
-function mysql_result($result, $column){
-    $query = $result->fetch();
-    return $query[$column];
-}
-
-function mysql_free_result($result) {
-    return $result->closeCursor();
-}
-
-function mysql_num_rows($result) {
-    return dbrows($result);
-}
-
-function mysql_affected_rows($connection = null) {
-    global $pdo;
-    /** @var PDO $pdo */
-    return $pdo->rowCount();
+if(!function_exists("mysql_affected_rows")) {
+	function mysql_affected_rows($connection = null) {
+		global $pdo;
+		/** @var PDO $pdo */
+		return $pdo->rowCount();
+	}
 }
 
 ?>
