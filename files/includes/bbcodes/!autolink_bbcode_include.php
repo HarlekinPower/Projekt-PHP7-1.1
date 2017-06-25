@@ -103,6 +103,6 @@ if (!defined("IN_FUSION")) { die("Access Denied"); }
 		}
 	}
 
-	$text = run($text);
+	$text = autolink_run($text);
 
 ?>
