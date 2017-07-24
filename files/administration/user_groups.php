@@ -22,6 +22,12 @@ if (!checkrights("UG") || !defined("iAUTH") || !isset($_GET['aid']) || $_GET['ai
 require_once THEMES."templates/admin_header.php";
 include LOCALE.LOCALESET."admin/user_groups.php";
 
+$group_change = dbarray(dbquery("SELECT * FROM ".DB_USER_GROUPS." "));
+if ($group_change['group_id'] = '101') {
+	$group_101 = $group_change['group_id']+3 ;
+	$update_101 = dbquery("UPDATE ".DB_USER_GROUPS." SET group_id='".$group_101."' WHERE group_id='101' ");
+}
+
 if (isset($_POST['group_id']) && isnum($_POST['group_id'])) { $_GET['group_id'] = $_POST['group_id']; }
 
 if (isset($_GET['status']) && !isset($message)) {
